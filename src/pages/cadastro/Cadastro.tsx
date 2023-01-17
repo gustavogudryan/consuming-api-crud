@@ -50,10 +50,19 @@ export function Cadastro()  {
                 name,
                 email,
                 password,
+                repassword,
             })
         )
+        limpaCampos()
     }
 
+    const limpaCampos = () => {
+        setEmail('')
+        setName('')
+        setPassword('')
+        setRepassword('')
+    }
+    
     useEffect(()=> {
         if(usuarioLogado) navigate("/home")
     }, [])
@@ -61,7 +70,8 @@ export function Cadastro()  {
     useEffect(()=> {
         if(changeLog) {
             dispatch(resetChangeLog())
-            // navigate("/")
+            limpaCampos()
+            navigate("/")
         }
     }, [changeLog])
     
@@ -75,7 +85,7 @@ export function Cadastro()  {
                 <InputForm value={repassword} type="password" label='Repita sua senha' onChange={(e)=>setRepassword(e.target.value)}/>
                 <ButtonCadastro onClick={(e) => {
                     e.preventDefault();
-                    novoUsuario();
+                    novoUsuario()
                 }}/>
                 <Link style={{ textDecoration: 'none', marginTop: '15px', color: '#242452'}} to={"/"}>Já possui conta?</Link>
             </DivStyle>
