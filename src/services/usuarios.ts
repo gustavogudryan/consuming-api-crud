@@ -12,10 +12,10 @@ class UsersDataService{
         })
     }
 
-    async login(loginInfo: any) {
+    async login(info: any) {
         return await api.post("/users/login", {
-            email: loginInfo.email,
-            password: loginInfo.password,
+            email: info.email,
+            password: info.password,
         })
     }
 }

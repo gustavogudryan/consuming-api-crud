@@ -3,20 +3,24 @@ import { api } from "./api";
 
 
 class RecadosDataService {
+
     async create(recado: Recado) {
         return await api.post("/users/recados", {
-            userId: recado.userId,
-            title: recado.titulo,
-            description: recado.descricao,
+            userEmail: recado.userEmail,
+            titulo: recado.titulo,
+            descricao: recado.descricao,
         })
     }
 
-    async getAllUserRecados(loggedUser: string){
-        return await api.get(`/users/recados?userId=${loggedUser}`)
+    async getAllUserRecados(usuarioLogado: string){
+        return await api.get(`/users/recados?userEmail=${usuarioLogado}`)
     }
 
     async update(novoRecado: any){
-        return await api.put(`/users/recados/${novoRecado.id}`)
+        return await api.put(`/users/recados/${novoRecado.id}`, {
+            titulo: novoRecado.titulo,
+            descricao: novoRecado.descricao,
+        })
     }
 
     async delete(id: string) {

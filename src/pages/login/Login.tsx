@@ -33,35 +33,33 @@ const DivStyle = styled(Box)(() => ({
 
 export function Login(): JSX.Element {
 
-    const dispatch=useDispatch()
-
-    let navigate = useNavigate()
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const dispatch = useDispatch()
+
+    let navigate = useNavigate()
+
     const logCheck = useAppSelector((state) => state.usuarios.logged);
 
-    function checkUser() {
-        dispatch(
-            loginUser({
-                email,
-                password,
-            })
-        )
+    function checkUsuario() {
+        dispatch(loginUser({
+            email,
+            password,
+        }))
     }
 
-    useEffect(()=> {
-        const isLogged = sessionStorage.getItem("logged")
-        if(isLogged) navigate("/home")
-    }, [])
+    useEffect(() => {
+        const usuarioLogado = sessionStorage.getItem("logado")
+        if(usuarioLogado) navigate("/home")
+    }, []);
 
     useEffect(() => {
-        if (logCheck) {
-          sessionStorage.setItem("logged", email);
-          navigate("/home");
+        if(logCheck) {
+            sessionStorage.setItem("logado", email)
+            navigate("/home")
         }
-      }, [logCheck]);
+    }, [logCheck])
 
     return (
         <ContainerStyle>
@@ -70,7 +68,7 @@ export function Login(): JSX.Element {
                 <InputForm value={password} type="password" label='Password' onChange={(e)=>setPassword(e.target.value)}/>
                 <ButtonLogin  onClick={(e) => {
                 e.preventDefault();
-                checkUser();
+                checkUsuario();
               }} />
                 <Link style={{ textDecoration: 'none', marginTop: '15px', color: '#242452'}} to={"/cadastro"}>Criar conta</Link>
             </DivStyle>

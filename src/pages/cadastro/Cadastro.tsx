@@ -1,6 +1,6 @@
 // @ ts-nocheck
 import React, { useEffect, useState} from "react"
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { Link, useNavigate } from "react-router-dom"
 import { styled } from '@mui/material/styles';
 import ButtonCadastro from "../../components/buttons/ButtonCadastro"
@@ -39,21 +39,20 @@ export function Cadastro()  {
 
     let navigate = useNavigate()
 
+    const dispatch = useAppDispatch()
+
     let changeLog = useAppSelector((state) => state.usuarios.changeLog)
 
-    const dispatch = useAppDispatch()
-    const usuarioLogado = sessionStorage.getItem("logged")
+    const usuarioLogado = sessionStorage.getItem("logado")
 
     function novoUsuario() {
-        dispatch(
-            addUser({
+        dispatch(addUser({
                 name,
                 email,
                 password,
                 repassword,
             })
         )
-        limpaCampos()
     }
 
     const limpaCampos = () => {
@@ -62,19 +61,19 @@ export function Cadastro()  {
         setPassword('')
         setRepassword('')
     }
-    
+
     useEffect(()=> {
         if(usuarioLogado) navigate("/home")
     }, [])
-
+    
     useEffect(()=> {
         if(changeLog) {
-            dispatch(resetChangeLog())
             limpaCampos()
+            alert('Conta criada')
             navigate("/")
+            dispatch(resetChangeLog())
         }
     }, [changeLog])
-    
     
     return (
         <ContainerStyle>
@@ -89,7 +88,7 @@ export function Cadastro()  {
                 }}/>
                 <Link style={{ textDecoration: 'none', marginTop: '15px', color: '#242452'}} to={"/"}>Já possui conta?</Link>
             </DivStyle>
-        </ContainerStyle>
+        </ContainerStyle>  
     )
 }
 

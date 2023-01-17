@@ -17,6 +17,8 @@ import InputForm from "../inputForm/InputForm";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Recado from "../../utils/interface/Recado";
+import { useNavigate } from "react-router-dom";
+import { getAllUserRecados } from "../../store/modules/recadosSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -60,8 +62,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ListaRecados() {
 
   const dispatch=useDispatch()
+  const navigate = useNavigate();
 
-  // const recadosList=useSelector((state:CRUDState)=>state.recados.recadosList)
+  const usuarioLogado = sessionStorage.getItem("logged");
 
   const [row, setRow]=useState<Recado[]>([])
 
@@ -74,8 +77,15 @@ export default function ListaRecados() {
   const handleClose = () => {
     setIsEdit(false);
   };
+
+  useEffect(()=> {
+    if(!usuarioLogado) {
+      navigate("/")
+    } else {
+      dispatch(getAllUserRecados(usuarioLogado))
+    }
+  }, []);
  
-  
   // useEffect(()=>{
   //   if (recadosList.length) {
   //     setRow(recadosList)
