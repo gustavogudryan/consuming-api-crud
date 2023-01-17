@@ -1,13 +1,14 @@
 // @ts-nocheck
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box} from "@mui/material"
 import { Link, useNavigate } from "react-router-dom"
 import { styled } from '@mui/material/styles';
-import { setUserOn, User } from "../../store/modules/usuariosSlice"
 import { useDispatch,useSelector} from 'react-redux';
 import ButtonLogin from "../../components/buttons/ButtonLogin"
 import InputForm from "../../components/inputForm/InputForm"
 import { userSelectAll } from "../../store/modules/usuariosSlice";
+import { loginUser } from "../../store/modules/usuariosSlice";
+import session from "redux-persist/lib/storage/session";
 
 const ContainerStyle = styled(Box)(() => ({
     height: '100vh',
@@ -34,43 +35,44 @@ const DivStyle = styled(Box)(() => ({
 export function Login(): JSX.Element {
 
     const dispatch=useDispatch()
-    
-    const usersRedux=useSelector(userSelectAll)
 
     let navigate = useNavigate()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    
-    const Logar = () => {
+    const logCheck = useAppSelector((state) => state.usuarios.logged);
 
-        const usuarioLogado = usersRedux.usersList.find((user:User)=>(user.email === email && user.password === password))
-console.log(usuarioLogado);
-
-        if(!usuarioLogado){
-            alert("Email ou senha incorretas")
-            setEmail('')
-            setPassword('')
-        }else {
-            const avatar=usuarioLogado?.nome?.substring(0,1)
-            const usuarioOn={
-                id:usuarioLogado.id,
-                nome:usuarioLogado.nome,
-                avatar,
-            }
-            
-            dispatch(setUserOn(usuarioOn))
-            navigate('/home')
-        }
+    function checkUser() {
+        dispatch(
+            loginUser({
+                email,
+                password,
+            })
+        )
     }
+
+    useEffect(()=> {
+        const isLogged = sessionStorage.getItem("logged")
+        if(isLogged) navigate("/home")
+    }, [])
+
+    useEffect(() => {
+        if (logCheck) {
+          sessionStorage.setItem("logged", email);
+          navigate("/home");
+        }
+      }, [logCheck]);
 
     return (
         <ContainerStyle>
             <DivStyle>
                 <InputForm value={email} type="text" label='Email' onChange={(e)=>setEmail(e.target.value)}/>
                 <InputForm value={password} type="password" label='Password' onChange={(e)=>setPassword(e.target.value)}/>
-                <ButtonLogin onClick={Logar} />
+                <ButtonLogin  onClick={(e) => {
+                e.preventDefault();
+                checkUser();
+              }} />
                 <Link style={{ textDecoration: 'none', marginTop: '15px', color: '#242452'}} to={"/cadastro"}>Criar conta</Link>
             </DivStyle>
         </ContainerStyle>

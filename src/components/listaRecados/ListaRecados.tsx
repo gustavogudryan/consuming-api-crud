@@ -7,18 +7,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CRUDState } from "../../store/rootReducer";
 import {useSelector} from 'react-redux';
-import { Recado } from "../../pages/cadastro/Cadastro";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useDispatch} from 'react-redux';
-import { apagarRecado, editarRecado } from "../../store/modules/recadosSlice";
 import InputForm from "../inputForm/InputForm";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Recado from "../../utils/interface/Recado";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,7 +61,7 @@ export default function ListaRecados() {
 
   const dispatch=useDispatch()
 
-  const recadosList=useSelector((state:CRUDState)=>state.recados.recadosList)
+  // const recadosList=useSelector((state:CRUDState)=>state.recados.recadosList)
 
   const [row, setRow]=useState<Recado[]>([])
 
@@ -76,16 +74,17 @@ export default function ListaRecados() {
   const handleClose = () => {
     setIsEdit(false);
   };
-
-  useEffect(()=>{
-    if (recadosList.length) {
-      setRow(recadosList)
-    }
-  },[recadosList])
+ 
+  
+  // useEffect(()=>{
+  //   if (recadosList.length) {
+  //     setRow(recadosList)
+  //   }
+  // },[recadosList])
   
   return (
     <>
-    <TableContainer component={Paper}>
+    {/* <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
 
         <TableHead>
@@ -148,7 +147,7 @@ export default function ListaRecados() {
           </TableBody>
         )}
       </Table>
-    </TableContainer>
+    </TableContainer> */}
     </>
   );
 }

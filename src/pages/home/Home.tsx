@@ -1,37 +1,35 @@
 import { Button, Stack } from "@mui/material"
 import React, {useState} from "react"
 import { useDispatch,useSelector} from 'react-redux';
-import { CRUDState } from "../../store/rootReducer"
-import { Recado, setNewRecado } from "../../store/modules/recadosSlice"
 import Header from "../../components/header/Header"
 import InputForm from "../../components/inputForm/InputForm"
 import ListaRecados from "../../components/listaRecados/ListaRecados";
 
 export function Home() {
-const dispatch=useDispatch()
+// const dispatch=useDispatch()
 
-const userlogado=useSelector(({usuarios}:CRUDState)=>usuarios.userOn!)
+// const userlogado=useSelector(({usuarios}:CRUDState)=>usuarios.userOn!)
 
-    const [titulo, setTitulo] = useState('')
-    const [descricao, setDescricao] = useState('')
+//     const [titulo, setTitulo] = useState('')
+//     const [descricao, setDescricao] = useState('')
 
-    const salvarRecado = () => {
+//     const salvarRecado = () => {
                 
-        const novoRecado: Recado = { 
-            id: Number(Math.floor(Math.random() * Date.now())),
-            titulo: titulo,
-            descricao: descricao,           
-            userId:userlogado.id
-        }
-        setDescricao('')
-        setTitulo('')
+//         const novoRecado: Recado = { 
+//             id: Number(Math.floor(Math.random() * Date.now())),
+//             titulo: titulo,
+//             descricao: descricao,           
+//             userId:userlogado.id
+//         }
+//         setDescricao('')
+//         setTitulo('')
    
-        dispatch(setNewRecado(novoRecado))
-      }     
+//         dispatch(setNewRecado(novoRecado))
+//       }     
 
     return (
         <>
-            <Header usuario={''}/>
+            {/* <Header usuario={''}/>
             <Stack sx={{padding:2}}  direction="row"
                 justifyContent="center"
                 alignItems="center"
@@ -40,7 +38,7 @@ const userlogado=useSelector(({usuarios}:CRUDState)=>usuarios.userOn!)
                 <InputForm value={descricao} type="text" label='Descrição' onChange={(e)=>setDescricao(e.target.value)}/>
                 <Button onClick={salvarRecado} variant="contained">Salvar</Button>
             </Stack>
-            <ListaRecados />
+            <ListaRecados /> */}
         </>
     )
     }

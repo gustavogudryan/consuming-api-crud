@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { AppRoutes } from './routes/AppRoutes';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Provider } from 'react-redux'
-import { store, persistor } from './store';
-import { PersistGate } from 'redux-persist/integration/react';
+import store from "./store/index";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,10 +12,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-    <CssBaseline/>
-    <AppRoutes />
-    </PersistGate>
-</Provider>
+      <CssBaseline/>
+      <AppRoutes />
+    </Provider>
   </React.StrictMode>
 );
