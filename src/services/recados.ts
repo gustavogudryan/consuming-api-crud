@@ -1,31 +1,30 @@
+
 import Recado from "../utils/interface/Recado";
 import { api } from "./api";
 
-
 class RecadosDataService {
+  async create(recado: Recado) {
+    return await api.post("/users/recados", {
+      userEmail: recado.userEmail,
+      titulo: recado.titulo,
+      descricao: recado.descricao,
+    });
+  }
 
-    async create(recado: Recado) {
-        return await api.post("/users/recados", {
-            userEmail: recado.userEmail,
-            titulo: recado.titulo,
-            descricao: recado.descricao,
-        })
-    }
+  async getAllUserRecados(loggedUser: string) {
+    return await api.get(`/users/recados?userEmail=${loggedUser}`);
+  }
 
-    async getAllUserRecados(usuarioLogado: string){
-        return await api.get(`/users/recados?userEmail=${usuarioLogado}`)
-    }
+  async update(novoRecado: any) {
+    return await api.put(`/users/recados/${novoRecado.id}`, {
+      titulo: novoRecado.titulo,
+      descricao: novoRecado.descricao,
+    });
+  }
 
-    async update(novoRecado: any){
-        return await api.put(`/users/recados/${novoRecado.id}`, {
-            titulo: novoRecado.titulo,
-            descricao: novoRecado.descricao,
-        })
-    }
-
-    async delete(id: string) {
-        return await api.delete(`/users/recados/${id}`)
-    }
+  async delete(id: string) {
+    return await api.delete(`/users/recados/${id}`);
+  }
 }
 
 const RecadosInstance = new RecadosDataService();

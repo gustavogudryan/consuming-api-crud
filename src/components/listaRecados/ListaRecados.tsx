@@ -18,7 +18,9 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Recado from "../../utils/interface/Recado";
 import { useNavigate } from "react-router-dom";
-import { getAllUserRecados } from "../../store/modules/recadosSlice";
+import { deleteRecado, getAllUserRecados } from "../../store/modules/recadosSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { v4 } from "uuid";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -61,10 +63,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function ListaRecados() {
 
-  const dispatch=useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate();
 
-  const usuarioLogado = sessionStorage.getItem("logged");
+  const logado = sessionStorage.getItem("logado");
+  const listaRecados = useAppSelector((state) => state.recados.listaRecados)
 
   const [row, setRow]=useState<Recado[]>([])
 
@@ -72,28 +75,88 @@ export default function ListaRecados() {
   const [updatedDescricao, setUpdatedDescricao] = useState("")
 
   const [isEdit, setIsEdit] = useState(false)
-  const [id, setId] = useState(Number)
+  const [id, setId] = useState(v4())
 
   const handleClose = () => {
     setIsEdit(false);
   };
 
-  useEffect(()=> {
-    if(!usuarioLogado) {
-      navigate("/")
-    } else {
-      dispatch(getAllUserRecados(usuarioLogado))
-    }
-  }, []);
+
+
  
   // useEffect(()=>{
-  //   if (recadosList.length) {
-  //     setRow(recadosList)
+  //   if (listaRecados.length) {
+  //     setRow(listaRecados)
   //   }
-  // },[recadosList])
+  // },[listaRecados])
   
   return (
     <>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="center">Título</StyledTableCell>
+            <StyledTableCell align="center">Descrição</StyledTableCell>
+            <StyledTableCell align="center">Status</StyledTableCell>
+            <StyledTableCell align="center">Ação</StyledTableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {listaRecados.map((recado) => {
+            return <StyledTableRow>
+
+              <StyledTableCell align="center">{recado.titulo}</StyledTableCell>
+              <StyledTableCell align="center">{recado.descricao}</StyledTableCell>
+
+              <StyledTableCell align="center">
+                <RadioGroup sx={{alignItems: 'center'}} name="use-radio-group" defaultValue="">
+                    <FormControlLabel value="completo" control={<Radio color="success" />} label="Completo" />
+                    <FormControlLabel value="incompleto" control={<Radio color="error" />} label="Incompleto" />
+                </RadioGroup>
+              </StyledTableCell>
+
+              <StyledTableCell align="center">
+                  <Button onClick={() => {
+                    setIsEdit(true)
+                    // setId(recado.id)
+                  }} 
+                  style={{marginRight: "0.5em"}} variant="contained" startIcon={<EditIcon />} color="success" >Editar</Button>
+                  <Button variant="contained" color="error" startIcon={<DeleteIcon />}>Excluir</Button>
+                   {/* onClick={() => dispatch(deleteRecado())}  */}
+               </StyledTableCell> 
+
+              {isEdit && id === recado.id &&(
+                <>
+                  <Modal
+                      hideBackdrop
+                      open={isEdit}
+                      onClose={handleClose}
+                      aria-labelledby="child-modal-title"
+                      aria-describedby="child-modal-description"
+                      >
+                      <Box sx={{ ...styleModal, width: 400 }}>
+                          <InputForm onChange={(e) => setUpdatedTitulo(e.target.value)} type="text" label="Mudar Titulo"></InputForm>
+                          <InputForm onChange={(e) => setUpdatedDescricao(e.target.value)} type="text" label="Mudar Descrição"></InputForm>
+                          <div>
+                            <Button onClick={() => {
+                              // dispatch(editarRecado({id: recado.id, titulo: updatedTitulo, descricao: updatedDescricao}))
+                            }} variant="contained" style={{marginRight: "1em"}}>Editar</Button>
+                            <Button variant="contained" onClick={handleClose}>Cancelar</Button>
+                          </div>
+                      </Box>
+                  </Modal>
+                </>
+              )}
+
+            </StyledTableRow>
+          })}
+        </TableBody>
+    
+      </Table>
+    </TableContainer>
     {/* <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
 
@@ -127,9 +190,9 @@ export default function ListaRecados() {
                     setId(recado.id)
                   }} 
                   style={{marginRight: "0.5em"}} variant="contained" startIcon={<EditIcon />} color="success" >Editar</Button>
-                  <Button onClick={() => dispatch(apagarRecado(recado.id))} variant="contained" color="error" startIcon={<DeleteIcon />}>Excluir</Button>
-              </StyledTableCell>
-
+                  <Button onClick={() => dispatch(deleteRecado())} variant="contained" color="error" startIcon={<DeleteIcon />}>Excluir</Button>
+              </StyledTableCell> */}
+{/* 
               {isEdit && id === recado.id &&(
                 <>
                   <Modal
@@ -151,8 +214,8 @@ export default function ListaRecados() {
                       </Box>
                   </Modal>
                 </>
-              )}
-              </StyledTableRow>
+              )} */}
+              {/* </StyledTableRow>
             })}
           </TableBody>
         )}
