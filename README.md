@@ -1,4 +1,4 @@
-# Projeto avaliativo GrowDev
+# Projeto para GrowDev
 
 ## Project for GrowDev
 
