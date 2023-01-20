@@ -5,11 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link, useNavigate} from 'react-router-dom';
-import { useDispatch} from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { useEffect } from "react";
-import { useAppSelector } from '../../store/hooks';
-import { resetLogged } from '../../store/modules/usuariosSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import usuariosSlice, { resetLogged } from '../../store/modules/usuariosSlice';
 
 interface HeaderProps {
   usuario: string;
@@ -23,18 +22,7 @@ const StyleAppBar = styled(AppBar)(() => ({
 
 export default function Header({ usuario }: HeaderProps) {
 
-  const logCheck = useAppSelector((state) => state.usuarios.logged);
-
-  let navigate = useNavigate()
-
-  const dispatch = useDispatch()
-
-  useEffect(()=>{
-    if(!logCheck){
-      sessionStorage.removeItem("logado")
-      navigate("/")
-    }
-  }, [logCheck])
+  const dispatch = useAppDispatch()
 
   function logout(){
     sessionStorage.removeItem("logado")

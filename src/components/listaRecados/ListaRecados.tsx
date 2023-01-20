@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Recado from "../../utils/interface/Recado";
 import { useNavigate } from "react-router-dom";
-import { deleteRecado, getAllUserRecados } from "../../store/modules/recadosSlice";
+import { deleteRecado, getAllUserRecados, updateRecado } from "../../store/modules/recadosSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { v4 } from "uuid";
 
@@ -72,8 +72,27 @@ export default function ListaRecados() {
   const [updatedTitulo, setUpdatedTitulo] = useState("")
   const [updatedDescricao, setUpdatedDescricao] = useState("")
 
+  function editRecado() {
+      dispatch(updateRecado({
+        id: id,
+        titulo: updatedTitulo,
+        descricao: updatedDescricao,
+      }))
+      .then(() => dispatch(getAllUserRecados(logado!)))
+      .then(() => handleClose())
+
+      setUpdatedDescricao("")
+      setUpdatedTitulo("")
+  }
+
+  function deleteRecadoId(recadoId: string) {
+    dispatch(deleteRecado(recadoId))
+    .then(() => dispatch(getAllUserRecados(logado!)))
+    .then(() => handleClose())
+  }
+
   const [isEdit, setIsEdit] = useState(false)
-  const [id, setId] = useState(v4())
+  const [id, setId] = useState("")
 
   const handleClose = () => {
     setIsEdit(false);
@@ -109,12 +128,11 @@ export default function ListaRecados() {
 
               <StyledTableCell align="center">
                   <Button onClick={() => {
+                    setId(recado.id!)
                     setIsEdit(true)
-                    // setId(recado.id)
                   }} 
                   style={{marginRight: "0.5em"}} variant="contained" startIcon={<EditIcon />} color="success" >Editar</Button>
-                  <Button variant="contained" color="error" startIcon={<DeleteIcon />}>Excluir</Button>
-                   {/* onClick={() => dispatch(deleteRecado())}  */}
+                  <Button onClick={() => deleteRecadoId(id)} variant="contained" color="error" startIcon={<DeleteIcon />}>Excluir</Button> 
                </StyledTableCell> 
 
               {isEdit && id === recado.id &&(
@@ -130,9 +148,7 @@ export default function ListaRecados() {
                           <InputForm onChange={(e) => setUpdatedTitulo(e.target.value)} type="text" label="Mudar Titulo"></InputForm>
                           <InputForm onChange={(e) => setUpdatedDescricao(e.target.value)} type="text" label="Mudar Descrição"></InputForm>
                           <div>
-                            <Button onClick={() => {
-                              // dispatch(editarRecado({id: recado.id, titulo: updatedTitulo, descricao: updatedDescricao}))
-                            }} variant="contained" style={{marginRight: "1em"}}>Editar</Button>
+                            <Button onClick={() => editRecado()} variant="contained" style={{marginRight: "1em"}}>Editar</Button>
                             <Button variant="contained" onClick={handleClose}>Cancelar</Button>
                           </div>
                       </Box>

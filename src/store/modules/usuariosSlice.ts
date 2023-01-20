@@ -5,7 +5,6 @@ import Usuario from "../../utils/interface/Usuario";
 const initialState = {
     logged: false,
     changeLog: false,
-    currentMessage: "",
   };
 
 export const addUser = createAsyncThunk("/users/add", async (user: Usuario) =>{

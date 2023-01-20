@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header"
 import { InputRecado } from "../../components/inputRecado/InputRecado";
 import ListaRecados from "../../components/listaRecados/ListaRecados";
-import { useAppDispatch } from "../../store/hooks";
+import { usersInstance } from "../../services/usuarios";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addRecado, getAllUserRecados } from "../../store/modules/recadosSlice";
+import usuariosSlice from "../../store/modules/usuariosSlice";
 
 
 
@@ -27,7 +29,7 @@ export const Home = () => {
     return (
         <>
             <Header usuario={''}/>
-            <Stack sx={{padding:2}}  direction="row"
+            <Stack sx={{padding:2}} direction="row"
                 justifyContent="center"
                 alignItems="center"
                 spacing={2}>
