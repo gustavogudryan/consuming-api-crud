@@ -1,5 +1,8 @@
 # Projeto avaliativo GrowDev
 
-## Available Scripts
+## Project for GrowDev
 
-In the project directory, you can run:
+projeto realizado para a Growdev, para fins avaliativos!
+
+project carried out for Growdev, for evaluation purposes!
+
