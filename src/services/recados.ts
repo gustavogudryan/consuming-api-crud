@@ -11,8 +11,8 @@ class RecadosDataService {
     });
   }
 
-  async getAllUserRecados(loggedUser: string) {
-    return await api.get(`/users/recados?userEmail=${loggedUser}`);
+  async getAllUserRecados(logado: string) {
+    return await api.get(`/users/recados?userEmail=${logado}`);
   }
 
   async update(novoRecado: any) {

@@ -69,8 +69,6 @@ export default function ListaRecados() {
   const logado = sessionStorage.getItem("logado");
   const listaRecados = useAppSelector((state) => state.recados.listaRecados)
 
-  const [row, setRow]=useState<Recado[]>([])
-
   const [updatedTitulo, setUpdatedTitulo] = useState("")
   const [updatedDescricao, setUpdatedDescricao] = useState("")
 
@@ -80,15 +78,6 @@ export default function ListaRecados() {
   const handleClose = () => {
     setIsEdit(false);
   };
-
-
-
- 
-  // useEffect(()=>{
-  //   if (listaRecados.length) {
-  //     setRow(listaRecados)
-  //   }
-  // },[listaRecados])
   
   return (
     <>

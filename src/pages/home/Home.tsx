@@ -1,19 +1,28 @@
 import { Button, Stack } from "@mui/material"
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import { useDispatch,useSelector} from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header"
 import { InputRecado } from "../../components/inputRecado/InputRecado";
 import ListaRecados from "../../components/listaRecados/ListaRecados";
-import { addRecado } from "../../store/modules/recadosSlice";
+import { useAppDispatch } from "../../store/hooks";
+import { addRecado, getAllUserRecados } from "../../store/modules/recadosSlice";
 
 
 
-export function Home() {
+export const Home = () => {
 
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const logado = sessionStorage.getItem("logado");
 
-    const dispatch = useDispatch()
-    
+    useEffect(() => {
+        if(!logado) {
+            navigate("/")
+        } else {
+            dispatch(getAllUserRecados(logado))
+        }
+    }, []);
 
     return (
         <>
